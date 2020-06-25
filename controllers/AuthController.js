@@ -28,7 +28,10 @@ module.exports = {
 
     try {
       const savedUser = await user.save()
-      response.send(savedUser)
+      response.status(201).send({
+        status: 'success',
+        data: savedUser
+      })
     } catch (error) {
       response.status(400).send(error)
     }
@@ -50,7 +53,8 @@ module.exports = {
     // ! SEND TOKEN
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
 
-    res.header('auth-token', token).send({
+    res.header('auth-token', token).status(200).send({
+      status: 'success',
       userId: user._id,
       token: token
     })
